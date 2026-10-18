@@ -1,0 +1,675 @@
+---
+title: "**PRÁTICA ESTATÍSTICA II**"
+subtitle: "**PROJETO I**"
+author: "Marccello Ghellere Silva (<mghellere@id.uff.br>)"
+institute: "Universidade Federal Fluminense"
+format:
+  revealjs:
+    css: personalizado.css
+    slide-number: true
+    incremental: false
+    transition: slide
+    background-transition: fade
+    width: 1280
+    height: 720
+    margin: 0.07
+    auto-stretch: false
+    title-slide-attributes:
+      data-background-image: "capaa.jpg"
+      data-background-size: cover
+---
+
+
+# Introdução {background-image="capaa.jpg" background-opacity="0.6" .titulo-caixa}
+
+## Introdução
+
+::: box-blue
+A pandemia da COVID-19 fora uma grande mazela que abalou severamente as estruturas do cotidiano global. Trabalhos interrompidos, insegurança com o ambiente externo e atividades de lazer limitadas pelo distanciamento social são apenas alguns exemplos de áreas afetadas.
+Devido a gravidade do assunto e mudanças bruscas de rotina, o comportamento dos cidadãos mudou bruscamente. Interações sociais agora limitadas por vídeo-chamadas, empregos de variados setores agora em home-office, isso desconsiderando aqueles que tiveram de interromper suas atividades momentaneamente, todas essas mudanças geram impactos comportamentais nos cidadãos.
+Este estudo visa analisar qual o comportamento em relação à possíveis mudanças nos **hábitos alimentares** durante aquele período.
+
+:::
+
+## Introdução
+
+::: box-green
+Essa pesquisa, que utiliza dados reais coletados por alunas do curso de **pós-graduação em Nutrição na Universidade Federal Fluminense (UFF)**, têm-se como objetivo analisar mudanças no consumo de **batata, macarrão e arroz** entre os participantes da pesquisa.
+Avaliaremos se dentro dos dados coletados, existem associações a serem investigadas, entre a mudança no hábito do preparo desses alimentos considerados ricos em carboidratos, com objetivo de investigar:
+
+- As associações da mudança no consumo de batata, macarrão e arroz;
+
+- Existência de algum teor socio-econômico ou psicológico que justifique o resultado apresentado;
+
+- Existência de algum teor etário ou físico que se relacione no resultado apresentado.
+
+:::
+
+# Metodologia {background-image="capaa.jpg" background-opacity="0.6" .titulo-caixa}
+
+## Metodologia
+
+::: box-vinho
+
+Analisaremos dados reais coletados por alunas do curso de **pós-graduação em Nutrição na Universidade Federal Fluminense (UFF)**, com o objetivo de investigar os principais fatores associados à mudança dos hábitos alimentares e comportamentais na Pandemia da COVID-19.
+A amostra consiste em 2155 adultos, que reponderam um questionário online no ano de 2022, durante o período da pandemia da COVID-19.
+
+:::
+
+## Variáveis Analisadas
+
+::: {.panel-tabset}
+
+### Variável Resposta
+
+Nossa variável resposta de interesse nesta análise é a `Batata_Macarrao_Arroz`, que analisa se o consummo de batata, macarrão e arroz aumentou, diminuiu ou não alterou durante a pandemia.
+
+### Variáveis Categóricas
+As variáveis categóricas analisadas são: Gênero, Raça/Cor, Região, Isolamento, Trabalha, Renda Familiar, Escolaridade, Consulta Nutricionista, Dificuldade Financeira, Cigarro, Ansiedade, Insônia e Enxaqueca.
+
+### Variáveis Contínuas
+As variáveis contínuas analisadas são: Idade, Peso, Altura e IMC.
+
+:::
+
+## Metodologia - Testes de Hipótese
+
+::: {.panel-tabset}
+### Qui-Quadrado e Exato de Fisher
+
+- $H_0$: As variáveis são **independentes**.
+- $H_1$: As variáveis **não são independentes**.
+
+(5% de significância)
+
+### Coeficiente de Crámer
+
+O coeficiente de Crámer é utilizado para medir o quão forte é a associação da variável categórica em relação à variável resposta.
+Consideraremos os intervalos:
+
+- 0.00 a 0.10: Associação Muito Fraca
+- 0.10 a 0.30: Associação Fraca
+- 0.30 a 0.50: Associação Moderada
+- $>$ 0.5: Associação Forte
+
+### ANOVA tradicional 
+Teste de hipótese utilizado para comparar médias de diferentes fatores na variável reposta.
+
+- $H_0: \mu_0 = \mu_1 = ... = \mu_k$
+- $H_1: \mu_i \neq \mu_j$ para algum par i, j
+
+(5% de significância)
+
+### ANOVA de Welch 
+Utilizado quanto a suposição de homocedasticidade é violada. Ao realizar testes de homogeneidade de variâncias, percebeu-se que a variável qualitativa contínua Idade viola a homocedasticidade.
+Logo, nossas hipóteses serão as mesmas que da ANOVA tradicional, porém, com mudanças na fórmula do cálculo da estatística de teste.
+
+(5% de significância)
+
+:::
+
+## Pacotes
+
+::: box-vinho
+Os pacotes utilizados nessas análises e suas funções foram:
+
+- openxlsx: Para realizar a leitura da base de dados,
+- dplyr: Manipular a base de dados,
+- gtsummary: Construir as tabelas,
+- rstatix: Aplicar o coeficiente de Cramer nos testes de hipótese,
+- ggplot2 e ggplotr: Gráficos utilizados para analisar as suposições de normalidade,
+- DescTools: Testar a hipótese de homocedasticidade.
+
+:::
+
+```{r, warning = F, include = F}
+require(openxlsx)            # Leitura de base de dados
+require(dplyr)               # Manipulação de base de dados
+require(gtsummary)           # Tabelas automáticas
+require(gt)                  # Tabelas automáticas
+require(rstatix)             # Coeficiente de Cramer
+require(ggplot2)             # Gráficos
+require(qqplotr)             # Gráficos qqplot
+require(DescTools)           # Teste de Levene
+require(readr)
+Dados = read.xlsx("Nutrição.xlsx")
+
+theme_gtsummary_language("pt", big.mark = ".", decimal.mark = ",")
+
+ExpCategorica = Dados %>%
+  select(Genero, Raca_cor, Regiao, Isolamento, Trabalha, Renda_familiar, Escolaridade, Consulta_Nutricionista, Dificuldade_Financeira, cigarro, Ansiedade, Depressao, Insonia,
+         Enxaqueca, Batata_Macarrao_Arroz)
+
+ExpQuant = Dados %>%
+  select(Idade, Peso, Altura, IMC, Batata_Macarrao_Arroz)
+
+ExpCategorica %>%
+  mutate(
+    # 1. Junta "Outro" com "Prefiro não declarar"
+    Raca_cor = case_when(
+      Raca_cor %in% c("Outro", "Prefiro não declarar", "Amarela", "Indígena") ~ "Amarela/Indigena/Outro/PND",
+      TRUE ~ as.character(Raca_cor)
+    ),
+    # 2. Junta "Analfabeto", "Ensino Fundamental Completo" e "Não desejo informar"
+    # Nota: Ajuste o texto se no seu banco estiver "Analfabeto" ou "Analfabetos"
+    Escolaridade = case_when(
+      Escolaridade %in% c("Analfabeto", "Ensino Fundamental Completo", "Não desejo informar", "Ensino Médio Completo") ~ "Ensino Fundamental ou Médio/Não informado",
+      TRUE ~ as.character(Escolaridade)
+    )
+  ) %>%
+  tbl_summary(
+    by = Batata_Macarrao_Arroz,
+    percent = "row"
+  ) %>%
+  add_p()
+
+tbl_summary(data = ExpQuant,
+            by = Batata_Macarrao_Arroz,
+ statistic = all_continuous() ~ "{mean} ({sd})")
+```
+```{r, include = F, warning = F}
+require(openxlsx)
+require(dplyr)
+
+Dados = read.xlsx("Nutrição.xlsx")
+
+Dados_Ajustados = Dados %>%
+  select(
+    Genero, Raca_cor, Regiao, Isolamento, Trabalha, Renda_familiar, 
+    Escolaridade, Consulta_Nutricionista, Dificuldade_Financeira, cigarro, 
+    Ansiedade, Depressao, Insonia, Enxaqueca, Batata_Macarrao_Arroz
+  ) %>%
+  mutate(
+    Raca_cor = case_when(
+      Raca_cor %in% c("Outro", "Prefiro não declarar", "Amarela", "Indígena") ~ "Amarela/Indigena/Outro/PND",
+      TRUE ~ as.character(Raca_cor)
+    ),
+    Escolaridade = case_when(
+      Escolaridade %in% c("Analfabeto", "Ensino Fundamental Completo", "Não desejo informar", "Ensino Médio Completo") ~ "Ensino Fundamental ou Médio/Não informado",
+      TRUE ~ as.character(Escolaridade)
+    )
+  )
+
+```
+
+
+## Resultados Variáveis Categóricas
+```{r}
+require(openxlsx)
+require(dplyr)
+require(gtsummary)
+require(gt)
+require(rstatix)
+
+Dados = read.xlsx("Nutrição.xlsx")
+
+# 1. Selecionando apenas as variáveis de interesse e aplicando os reagrupamentos
+Dados_Ajustados = Dados %>%
+  select(
+    Genero, Raca_cor, Regiao, Isolamento, Trabalha, Renda_familiar, 
+    Escolaridade, Consulta_Nutricionista, Dificuldade_Financeira, cigarro, 
+    Ansiedade, Depressao, Insonia, Enxaqueca, Batata_Macarrao_Arroz
+  ) %>%
+  mutate(
+    Raca_cor = case_when(
+      Raca_cor %in% c("Outro", "Prefiro não declarar", "Amarela", "Indígena") ~ "Amarela/Indigena/Outro/PND",
+      TRUE ~ as.character(Raca_cor)
+    ),
+    Escolaridade = case_when(
+      Escolaridade %in% c("Analfabeto", "Ensino Fundamental Completo", "Não desejo informar", "Ensino Médio Completo") ~ "Ensino Fundamental ou Médio/Não informado",
+      TRUE ~ as.character(Escolaridade)
+    )
+  )
+
+theme_gtsummary_language("pt", big.mark = ".", decimal.mark = ",")
+
+# Função para o coeficiente de Cramér
+cramer_fun <- function(data, variable, by, ...) {
+  tab <- table(data[[variable]], data[[by]])
+  v <- cramer_v(tab)
+  tibble::tibble(`**Cramér**` = round(v, 3))
+}
+
+# Geração da Tabela
+tbl_summary(
+  data = Dados_Ajustados,
+  by = Batata_Macarrao_Arroz,
+  percent = "row",
+  label = list(
+    Genero ~ "Gênero<sup>F</sup>",
+    Raca_cor ~ "Raça/Cor<sup>Q</sup>",
+    Regiao ~ "Região<sup>Q</sup>",
+    Isolamento ~ "Isolamento<sup>Q</sup>",
+    Trabalha ~ "Trabalha<sup>Q</sup>",
+    Renda_familiar ~ "Renda Familiar<sup>Q</sup>",
+    Escolaridade ~ "Escolaridade<sup>Q</sup>",
+    Consulta_Nutricionista ~ "Consulta Nutricionista<sup>Q</sup>",
+    Dificuldade_Financeira ~ "Dificuldade Financeira<sup>Q</sup>",
+    cigarro ~ "Cigarro<sup>Q</sup>",
+    Ansiedade ~ "Ansiedade<sup>Q</sup>",
+    Depressao ~ "Depressão<sup>Q</sup>",
+    Insonia ~ "Insônia<sup>Q</sup>",
+    Enxaqueca ~ "Enxaqueca<sup>Q</sup>"
+  )
+) %>%
+  add_p(pvalue_fun = label_style_pvalue(digits = 3)) %>%
+  bold_p(t = 0.05) %>%
+  add_stat(fns = everything() ~ cramer_fun) %>%
+  modify_spanning_header(all_stat_cols() ~ "**Consumo de Batata, Macarrão e Arroz**") %>%
+  modify_header(label ~ "**Variáveis**") %>%
+  bold_labels() %>%
+  modify_header(all_stat_cols() ~ "**{level}**<br>{n} ({style_percent(p)}%)") %>%
+  modify_footnote(everything() ~ NA) %>%
+  
+  # Conversão para o objeto gt
+  as_gt() %>%
+  fmt_markdown(columns = label) %>%
+  
+  # --- PINTANDO DE VERMELHO OS VALORES MAIORES QUE O ESPERADO (> 1,96) ---
+  tab_style(
+    style = list(cell_text(color = "red", weight = "bold")),
+    locations = cells_body(
+      columns = stat_1,
+      rows = (variable == "Renda_familiar" & label == "entre R$ 1.255 - R$ 8.640") |
+             (variable == "Escolaridade" & label == "Ensino Fundamental ou Médio/Não informado") |
+             (variable == "Consulta_Nutricionista" & label == "Não") |
+             (variable == "Dificuldade_Financeira" & label == "Sim") |
+             (variable == "Ansiedade" & label == "Sim") |
+             (variable == "Depressao" & label == "Sim") |
+             (variable == "Insonia" & label == "Sim") |
+             (variable == "Isolamento" & label == "Sim") |
+             (variable == "Genero" & label == "Prefiro não responder")
+    )
+  ) %>%
+  tab_style(
+    style = list(cell_text(color = "red", weight = "bold")),
+    locations = cells_body(
+      columns = stat_2,
+      rows = (variable == "Genero" & label == "Feminino") |
+             (variable == "Raca_cor" & label == "Parda") |
+             (variable == "Renda_familiar" & label == "até R$ 1254,00") |
+             (variable == "Consulta_Nutricionista" & label == "Sim") |
+             (variable == "Dificuldade_Financeira" & label == "Sim") |
+             (variable == "Insonia" & label == "Sim")
+    )
+  ) %>%
+  tab_style(
+    style = list(cell_text(color = "red", weight = "bold")),
+    locations = cells_body(
+      columns = stat_3,
+      rows = (variable == "Genero" & label == "Masculino") |
+             (variable == "Raca_cor" & label == "Branca") |
+             (variable == "Isolamento" & label == "Não") |
+             (variable == "Renda_familiar" & label == "mais de R$ 8.640") |
+             (variable == "Escolaridade" & label == "Pós-graduação") |
+             (variable == "Dificuldade_Financeira" & label == "Não") |
+             (variable == "Ansiedade" & label == "Não") |
+             (variable == "Depressao" & label == "Não") |
+             (variable == "Insonia" & label == "Não")
+    )
+  ) %>%
+  
+  # --- PINTANDO DE AZUL OS VALORES MENORES QUE O ESPERADO (< -1,96) ---
+  tab_style(
+    style = list(cell_text(color = "blue", weight = "bold")),
+    locations = cells_body(
+      columns = stat_1,
+      rows = (variable == "Isolamento" & label == "Não") |
+             (variable == "Renda_familiar" & label == "mais de R$ 8.640") |
+             (variable == "Escolaridade" & label == "Pós-graduação") |
+             (variable == "Consulta_Nutricionista" & label == "Sim") |
+             (variable == "Dificuldade_Financeira" & label == "Não") |
+             (variable == "Ansiedade" & label == "Não") |
+             (variable == "Depressao" & label == "Não") |
+             (variable == "Insonia" & label == "Não")
+    )
+  ) %>%
+  tab_style(
+    style = list(cell_text(color = "blue", weight = "bold")),
+    locations = cells_body(
+      columns = stat_2,
+      rows = (variable == "Genero" & label == "Masculino") |
+             (variable == "Raca_cor" & label == "Branca") |
+             (variable == "Renda_familiar" & label == "entre R$ 1.255 - R$ 8.640") |
+             (variable == "Consulta_Nutricionista" & label == "Não") |
+             (variable == "Dificuldade_Financeira" & label == "Não") |
+             (variable == "Insonia" & label == "Não")
+    )
+  ) %>%
+  tab_style(
+    style = list(cell_text(color = "blue", weight = "bold")),
+    locations = cells_body(
+      columns = stat_3,
+      rows = (variable == "Genero" & label == "Feminino") |
+             (variable == "Genero" & label == "Prefiro não responder") |
+             (variable == "Raca_cor" & label == "Preta") |
+             (variable == "Isolamento" & label == "Sim") |
+             (variable == "Renda_familiar" & label == "até R$ 1254,00") |
+             (variable == "Renda_familiar" & label == "entre R$ 1.255 - R$ 8.640") |
+             (variable == "Escolaridade" & label == "Ensino Fundamental ou Médio/Não informado") |
+             (variable == "Dificuldade_Financeira" & label == "Sim") |
+             (variable == "Ansiedade" & label == "Sim") |
+             (variable == "Depressao" & label == "Sim") |
+             (variable == "Insonia" & label == "Sim")
+    )
+  ) %>%
+  
+  # --- ESTILIZAÇÃO DO CABEÇALHO VERMELHO E TEXTO PRETO ---
+  tab_style(
+    style = list(
+      cell_fill(color = "#d91a2a"),
+      cell_text(color = "black", weight = "bold", v_align = "middle")
+    ),
+    locations = list(
+      cells_column_labels(),
+      cells_column_spanners()
+    )
+  ) %>%
+  
+  # --- CONTROLE PROPORCIONAL DAS COLUNAS (PARA PREENCHER 100%) ---
+  cols_width(
+    label ~ pct(35),
+    p.value ~ pct(11),
+    everything() ~ pct(18)
+  ) %>%
+  
+  # --- OPÇÕES VISUAIS: LARGURA EM 100% E BORDAS REMOVIDAS ---
+  tab_options(
+    table.width = pct(100),
+    table.font.size = "20px",
+    column_labels.font.size = "22px",
+    table.border.top.style = "none",
+    column_labels.border.top.style = "none"
+  ) %>%
+  
+  # --- CSS COM PREENCHIMENTO COMPLETO DA LARGURA ---
+  opt_css(
+    css = "
+      .gt_table {
+        display: block !important;
+        width: 100% !important;
+        max-height: 550px !important;
+        overflow-y: auto !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+      }
+
+      .gt_table thead {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1000 !important;
+        width: 100% !important;
+      }
+
+      .gt_table thead tr th, 
+      .gt_table thead tr td {
+        background-color: #d91a2a !important;
+        border-top: none !important;
+        box-shadow: 0 0 0 1px #d91a2a !important;
+      }
+    "
+  )
+```
+
+## Resultado Variáveis Quantitativas Contínuas
+
+```{r, warning = F, include = F}
+# 1-) Idade
+ggplot(ExpQuant, aes(x = Idade)) +
+  geom_density(fill = "blue", alpha = 0.6) +
+  facet_wrap(~ Batata_Macarrao_Arroz) +
+  xlab("Idade") +
+  ylab("Densidade") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+
+ggplot(ExpQuant, aes(sample = Idade)) +
+    stat_qq_band(fill="lightblue") +
+    stat_qq_line() +
+    stat_qq_point() +
+    facet_wrap(~Batata_Macarrao_Arroz,scales = "free")+
+    xlab("Quantis Teoricos")+
+    ylab("Quantis Amostrais")+
+    theme_bw() +
+    theme(text = element_text(size = 14))
+by(ExpQuant$Idade, ExpQuant$Batata_Macarrao_Arroz, shapiro.test)
+
+# 2-) Peso
+ggplot(ExpQuant, aes(x = Peso)) +
+  geom_density(fill = "blue", alpha = 0.6) +
+  facet_wrap(~ Batata_Macarrao_Arroz) +
+  xlab("Peso") +
+  ylab("Densidade") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+
+ggplot(ExpQuant, aes(sample = Peso)) +
+    stat_qq_band(fill="lightblue") +
+    stat_qq_line() +
+    stat_qq_point() +
+    facet_wrap(~Batata_Macarrao_Arroz, scales = "free") +
+    xlab("Quantis Teoricos") +
+    ylab("Quantis Amostrais") +
+    theme_bw() +
+    theme(text = element_text(size = 14))
+
+by(ExpQuant$Peso, ExpQuant$Batata_Macarrao_Arroz, shapiro.test)
+
+
+# 3-) Altura
+ggplot(ExpQuant, aes(x = Altura)) +
+  geom_density(fill = "blue", alpha = 0.6) +
+  facet_wrap(~ Batata_Macarrao_Arroz) +
+  xlab("Altura") +
+  ylab("Densidade") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+
+ggplot(ExpQuant, aes(sample = Altura)) +
+    stat_qq_band(fill="lightblue") +
+    stat_qq_line() +
+    stat_qq_point() +
+    facet_wrap(~Batata_Macarrao_Arroz, scales = "free") +
+    xlab("Quantis Teoricos") +
+    ylab("Quantis Amostrais") +
+    theme_bw() +
+    theme(text = element_text(size = 14))
+
+by(ExpQuant$Altura, ExpQuant$Batata_Macarrao_Arroz, shapiro.test)
+
+
+# 4-) IMC
+ggplot(ExpQuant, aes(x = IMC)) +
+  geom_density(fill = "blue", alpha = 0.6) +
+  facet_wrap(~ Batata_Macarrao_Arroz) +
+  xlab("IMC") +
+  ylab("Densidade") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+
+ggplot(ExpQuant, aes(sample = IMC)) +
+    stat_qq_band(fill="lightblue") +
+    stat_qq_line() +
+    stat_qq_point() +
+    facet_wrap(~Batata_Macarrao_Arroz, scales = "free") +
+    xlab("Quantis Teoricos") +
+    ylab("Quantis Amostrais") +
+    theme_bw() +
+    theme(text = element_text(size = 14))
+
+by(ExpQuant$IMC, ExpQuant$Batata_Macarrao_Arroz, shapiro.test)
+
+```
+```{r, warning = F, include = F}
+# 1-) Idade
+LeveneTest(formula = Idade~Batata_Macarrao_Arroz,data = ExpQuant)
+
+# 2-) Peso
+LeveneTest(formula = Peso ~ Batata_Macarrao_Arroz, data = ExpQuant)
+
+# 3-) Altura
+LeveneTest(formula = Altura ~ Batata_Macarrao_Arroz, data = ExpQuant)
+
+# 4-) IMC
+LeveneTest(formula = IMC ~ Batata_Macarrao_Arroz, data = ExpQuant)
+```
+
+```{r, warning = F, include = F}
+# 1-) Idade
+games_howell_test(Idade~Batata_Macarrao_Arroz,
+                  data = ExpQuant)
+modelo1 <- aov(Peso~Batata_Macarrao_Arroz, data = ExpQuant)
+TukeyHSD(modelo1)
+
+modelo2 = aov(Altura~Batata_Macarrao_Arroz, data = ExpQuant)
+TukeyHSD(modelo2)
+
+modelo3 = aov(IMC~Batata_Macarrao_Arroz, data = ExpQuant)
+TukeyHSD(modelo3)
+```
+
+
+```{r}
+comparacoes_letras <- function(data, variable, by, ...) {
+  letras <- data.frame(
+    variavel = c("Idade", "Peso", "Altura", "IMC"),
+    comparacao = c(
+      "Aumentou = a<br>Diminuiu = b<br>Não alterou = c",
+      "Aumentou = a<br>Diminuiu = a<br>Não alterou = b",
+      "Aumentou = a<br>Diminuiu = a<br>Não alterou = a",
+      "Aumentou = a<br>Diminuiu = a<br>Não alterou = b"
+    ),
+    stringsAsFactors = FALSE  
+  )
+  result <- letras$comparacao[letras$variavel == variable]
+  tibble::tibble(`**Comparações Múltiplas**` = result)
+}
+
+tbl_summary(
+  data = ExpQuant,
+  by = Batata_Macarrao_Arroz,
+  statistic = all_continuous() ~ "{mean} ({sd})",
+  label = list(
+    Idade  ~ "Idade<sup>W</sup>",
+    Peso   ~ "Peso<sup>A</sup>",
+    Altura ~ "Altura<sup>A</sup>",
+    IMC    ~ "IMC<sup>A</sup>"
+  )
+) %>%
+  add_p(
+    test = everything() ~ "oneway.test",
+    test.args = list(
+      Idade ~ list(var.equal = FALSE),                    # Variâncias diferentes (ANOVA de Welch)
+      c(Peso, Altura, IMC) ~ list(var.equal = TRUE)       # Variâncias iguais (ANOVA tradicional)
+    ), 
+    pvalue_fun = label_style_pvalue(digits = 3)
+  ) %>%
+  bold_p(t = 0.05) %>%
+  modify_spanning_header(all_stat_cols() ~ "**Consumo de Batata, Macarrão e Arroz**") %>%
+  modify_header(label ~ "**Variáveis**") %>%
+  bold_labels() %>%
+  modify_header(all_stat_cols() ~ "**{level}**<br>{n}") %>%
+  modify_footnote(everything() ~ NA) %>%
+  add_stat(
+    fns = everything() ~ comparacoes_letras,
+    location = everything() ~ "label"
+  ) %>%
+  as_gt() %>%                    
+  fmt_markdown(columns = c(label, `**Comparações Múltiplas**`)) %>%
+  
+  # --- ESTILIZAÇÃO DO CABEÇALHO SUPERIOR (TEXTO PRETO E SEM CINZA) ---
+  tab_style(
+    style = list(
+      cell_text(color = "#000000", weight = "bold", v_align = "middle")
+    ),
+    locations = list(
+      cells_column_labels(),
+      cells_column_spanners()
+    )
+  ) %>%
+  
+  # --- CONFIGURAÇÕES VISUAIS DA TABELA ---
+  tab_options(
+    table.font.size = "20px",    
+    heading.title.font.size = "26px",
+    column_labels.font.size = "22px",
+    column_labels.background.color = "transparent" # Remove o fundo acinzentado do gt
+  )
+```
+
+## Conclusões - Idade
+
+Todas as médias do grupo diferem entre si. Podemos também notar uma média de idade mais alta onde o consumo diminuiu. Mesmo os gráficos aparentaando serem similares, o grande tamanho amostral nos permite reconhecer diferenças bem mais precisas no teste de Games-Howell.
+```{r}
+# 1-) Violino + Boxplot para IDADE
+ggplot(ExpQuant, aes(x = Batata_Macarrao_Arroz, y = Idade, fill = Batata_Macarrao_Arroz)) +
+  geom_violin(alpha = 0.4, trim = FALSE, color = "gray30") +
+  geom_boxplot(width = 0.2, alpha = 0.8, outlier.shape = NA) +
+  stat_summary(fun = mean, geom = "point", shape = 18, size = 3, color = "red") +
+  labs(
+    x = "Consumo de Batata, Macarrão e Arroz",
+    y = "Idade (anos)",
+    title = "Densidade e Distribuição da Idade por Categorias de Consumo"
+  ) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "none"
+  )
+```
+
+## Conclusões - Peso
+As comparações só diferem quando são realizadas com o grupo "Não Alterou" e podemos também notar uma mediana mais baixa. Ademais, a variável peso aparenta uma assimetria à direita.
+```{r}
+# 1-) Violino + Boxplot para PESO
+ggplot(ExpQuant, aes(x = Batata_Macarrao_Arroz, y = Peso, fill = Batata_Macarrao_Arroz)) +
+  geom_violin(alpha = 0.4, trim = FALSE, color = "gray30") +
+  geom_boxplot(width = 0.2, alpha = 0.8, outlier.shape = NA) +
+  stat_summary(fun = mean, geom = "point", shape = 18, size = 3, color = "red") +
+  labs(
+    x = "Consumo de Batata, Macarrão e Arroz",
+    y = "Peso(kg)",
+    title = "Densidade e Distribuição do Peso por Categorias de Consumo"
+  ) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "none"
+  )
+```
+
+## Conclusões - IMC
+
+```{r}
+# 1-) Violino + Boxplot para IMC
+ggplot(ExpQuant, aes(x = Batata_Macarrao_Arroz, y = IMC, fill = Batata_Macarrao_Arroz)) +
+  geom_violin(alpha = 0.4, trim = FALSE, color = "gray30") +
+  geom_boxplot(width = 0.2, alpha = 0.8, outlier.shape = NA) +
+  stat_summary(fun = mean, geom = "point", shape = 18, size = 3, color = "red") +
+  labs(
+    x = "Consumo de Batata, Macarrão e Arroz",
+    y = "IMC",
+    title = "Densidade e Distribuição do Peso por Categorias de Consumo"
+  ) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "none"
+  )
+```
+
+
+## Conclusão
+
+::: box-vinho
+- "Há evidências de algum teor socio-econômico ou psicológico que justifique o resultado apresentado?"
+
+:::
+
+::: box-green
+
+- "Há evidências de algum teor etário ou físico que se relacione no resultado ado?"
+
+:::
+
+# Fim {background-image="capaa.jpg" background-opacity="0.6" .titulo-caixa}

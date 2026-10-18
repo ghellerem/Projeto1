@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "Projeto 1.html#introdução-1",
+    "href": "Projeto 1.html#introdução-1",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Introdução",
+    "text": "Introdução\n\nA pandemia da COVID-19 fora uma grande mazela que abalou severamente as estruturas do cotidiano global. Trabalhos interrompidos, insegurança com o ambiente externo e atividades de lazer limitadas pelo distanciamento social são apenas alguns exemplos de áreas afetadas. Devido a gravidade do assunto e mudanças bruscas de rotina, o comportamento dos cidadãos mudou bruscamente. Interações sociais agora limitadas por vídeo-chamadas, empregos de variados setores agora em home-office, isso desconsiderando aqueles que tiveram de interromper suas atividades momentaneamente, todas essas mudanças geram impactos comportamentais nos cidadãos. Este estudo visa analisar qual o comportamento em relação à possíveis mudanças nos hábitos alimentares durante aquele período."
+  },
+  {
+    "objectID": "Projeto 1.html#introdução-2",
+    "href": "Projeto 1.html#introdução-2",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Introdução",
+    "text": "Introdução\n\nEssa pesquisa, que utiliza dados reais coletados por alunas do curso de pós-graduação em Nutrição na Universidade Federal Fluminense (UFF), têm-se como objetivo analisar mudanças no consumo de batata, macarrão e arroz entre os participantes da pesquisa. Avaliaremos se dentro dos dados coletados, existem associações a serem investigadas, entre a mudança no hábito do preparo desses alimentos considerados ricos em carboidratos, com objetivo de investigar:\n\nAs associações da mudança no consumo de batata, macarrão e arroz;\nExistência de algum teor socio-econômico ou psicológico que justifique o resultado apresentado;\nExistência de algum teor etário ou físico que se relacione no resultado apresentado."
+  },
+  {
+    "objectID": "Projeto 1.html#metodologia-1",
+    "href": "Projeto 1.html#metodologia-1",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Metodologia",
+    "text": "Metodologia\n\nAnalisaremos dados reais coletados por alunas do curso de pós-graduação em Nutrição na Universidade Federal Fluminense (UFF), com o objetivo de investigar os principais fatores associados à mudança dos hábitos alimentares e comportamentais na Pandemia da COVID-19. A amostra consiste em 2155 adultos, que reponderam um questionário online no ano de 2022, durante o período da pandemia da COVID-19."
+  },
+  {
+    "objectID": "Projeto 1.html#variáveis-analisadas",
+    "href": "Projeto 1.html#variáveis-analisadas",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Variáveis Analisadas",
+    "text": "Variáveis Analisadas\n\nVariável RespostaVariáveis CategóricasVariáveis Contínuas\n\n\nNossa variável resposta de interesse nesta análise é a Batata_Macarrao_Arroz, que analisa se o consummo de batata, macarrão e arroz aumentou, diminuiu ou não alterou durante a pandemia.\n\n\nAs variáveis categóricas analisadas são: Gênero, Raça/Cor, Região, Isolamento, Trabalha, Renda Familiar, Escolaridade, Consulta Nutricionista, Dificuldade Financeira, Cigarro, Ansiedade, Insônia e Enxaqueca.\n\n\nAs variáveis contínuas analisadas são: Idade, Peso, Altura e IMC."
+  },
+  {
+    "objectID": "Projeto 1.html#metodologia---testes-de-hipótese",
+    "href": "Projeto 1.html#metodologia---testes-de-hipótese",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Metodologia - Testes de Hipótese",
+    "text": "Metodologia - Testes de Hipótese\n\nQui-Quadrado e Exato de FisherCoeficiente de CrámerANOVA tradicionalANOVA de Welch\n\n\n\n\\(H_0\\): As variáveis são independentes.\n\\(H_1\\): As variáveis não são independentes.\n\n(5% de significância)\n\n\nO coeficiente de Crámer é utilizado para medir o quão forte é a associação da variável categórica em relação à variável resposta. Consideraremos os intervalos:\n\n0.00 a 0.10: Associação Muito Fraca\n0.10 a 0.30: Associação Fraca\n0.30 a 0.50: Associação Moderada\n\\(&gt;\\) 0.5: Associação Forte\n\n\n\nTeste de hipótese utilizado para comparar médias de diferentes fatores na variável reposta.\n\n\\(H_0: \\mu_0 = \\mu_1 = ... = \\mu_k\\)\n\\(H_1: \\mu_i \\neq \\mu_j\\) para algum par i, j\n\n(5% de significância)\n\n\nUtilizado quanto a suposição de homocedasticidade é violada. Ao realizar testes de homogeneidade de variâncias, percebeu-se que a variável qualitativa contínua Idade viola a homocedasticidade. Logo, nossas hipóteses serão as mesmas que da ANOVA tradicional, porém, com mudanças na fórmula do cálculo da estatística de teste.\n(5% de significância)"
+  },
+  {
+    "objectID": "Projeto 1.html#pacotes",
+    "href": "Projeto 1.html#pacotes",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Pacotes",
+    "text": "Pacotes\n\nOs pacotes utilizados nessas análises e suas funções foram:\n\nopenxlsx: Para realizar a leitura da base de dados,\ndplyr: Manipular a base de dados,\ngtsummary: Construir as tabelas,\nrstatix: Aplicar o coeficiente de Cramer nos testes de hipótese,\nggplot2 e ggplotr: Gráficos utilizados para analisar as suposições de normalidade,\nDescTools: Testar a hipótese de homocedasticidade."
+  },
+  {
+    "objectID": "Projeto 1.html#resultados-variáveis-categóricas",
+    "href": "Projeto 1.html#resultados-variáveis-categóricas",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Resultados Variáveis Categóricas",
+    "text": "Resultados Variáveis Categóricas\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVariáveis\n\nConsumo de Batata, Macarrão e Arroz\n\nValor-p\nCramér\n\n\nAumentou774 (36%)\nDiminuiu248 (12%)\nNão alterou1133 (53%)\n\n\n\n\nGêneroF\n\n\n\n\n\n\n0,003\n0,062\n\n\n    Feminino\n589 (37%)\n199 (12%)\n814 (51%)\n\n\n\n\n\n\n    Masculino\n179 (33%)\n47 (8,7%)\n316 (58%)\n\n\n\n\n\n\n    Outro\n2 (33%)\n1 (17%)\n3 (50%)\n\n\n\n\n\n\n    Prefiro não responder\n4 (80%)\n1 (20%)\n0 (0%)\n\n\n\n\n\n\nRaça/CorQ\n\n\n\n\n\n\n0,009\n0,063\n\n\n    Amarela/Indigena/Outro/PND\n26 (39%)\n5 (7,5%)\n36 (54%)\n\n\n\n\n\n\n    Branca\n470 (35%)\n135 (10%)\n741 (55%)\n\n\n\n\n\n\n    Parda\n209 (36%)\n83 (14%)\n284 (49%)\n\n\n\n\n\n\n    Preta\n69 (42%)\n25 (15%)\n72 (43%)\n\n\n\n\n\n\nRegiãoQ\n\n\n\n\n\n\n0,561\n0,040\n\n\n    Centro-oeste\n72 (33%)\n23 (11%)\n122 (56%)\n\n\n\n\n\n\n    Nordeste\n96 (36%)\n26 (9,7%)\n146 (54%)\n\n\n\n\n\n\n    Norte\n110 (36%)\n45 (15%)\n150 (49%)\n\n\n\n\n\n\n    Sudeste\n321 (35%)\n103 (11%)\n483 (53%)\n\n\n\n\n\n\n    Sul\n175 (38%)\n51 (11%)\n232 (51%)\n\n\n\n\n\n\nIsolamentoQ\n\n\n\n\n\n\n0,001\n0,080\n\n\n    Não\n312 (33%)\n97 (10%)\n543 (57%)\n\n\n\n\n\n\n    Sim\n462 (38%)\n151 (13%)\n590 (49%)\n\n\n\n\n\n\nTrabalhaQ\n\n\n\n\n\n\n0,491\n0,026\n\n\n    Não\n217 (38%)\n65 (11%)\n290 (51%)\n\n\n\n\n\n\n    Sim\n557 (35%)\n183 (12%)\n843 (53%)\n\n\n\n\n\n\nRenda FamiliarQ\n\n\n\n\n\n\n&lt;0,001\n0,103\n\n\n    até R$ 1254,00\n99 (40%)\n45 (18%)\n101 (41%)\n\n\n\n\n\n\n    entre R$ 1.255 - R$ 8.640\n486 (40%)\n122 (9,9%)\n622 (51%)\n\n\n\n\n\n\n    mais de R$ 8.640\n189 (28%)\n81 (12%)\n410 (60%)\n\n\n\n\n\n\nEscolaridadeQ\n\n\n\n\n\n\n0,002\n0,063\n\n\n    Ensino Fundamental ou Médio/Não informado\n305 (40%)\n88 (12%)\n372 (49%)\n\n\n\n\n\n\n    Ensino Superior Completo\n164 (39%)\n44 (11%)\n208 (50%)\n\n\n\n\n\n\n    Pós-graduação\n305 (31%)\n116 (12%)\n553 (57%)\n\n\n\n\n\n\nConsulta NutricionistaQ\n\n\n\n\n\n\n&lt;0,001\n0,148\n\n\n    Não\n671 (38%)\n167 (9,6%)\n909 (52%)\n\n\n\n\n\n\n    Sim\n103 (25%)\n81 (20%)\n224 (55%)\n\n\n\n\n\n\nDificuldade FinanceiraQ\n\n\n\n\n\n\n&lt;0,001\n0,145\n\n\n    Não\n585 (33%)\n190 (11%)\n986 (56%)\n\n\n\n\n\n\n    Sim\n189 (48%)\n58 (15%)\n147 (37%)\n\n\n\n\n\n\nCigarroQ\n\n\n\n\n\n\n0,457\n0,027\n\n\n    Não\n732 (36%)\n234 (11%)\n1.084 (53%)\n\n\n\n\n\n\n    Sim\n42 (40%)\n14 (13%)\n49 (47%)\n\n\n\n\n\n\nAnsiedadeQ\n\n\n\n\n\n\n&lt;0,001\n0,106\n\n\n    Não\n344 (31%)\n141 (13%)\n624 (56%)\n\n\n\n\n\n\n    Sim\n430 (41%)\n107 (10%)\n509 (49%)\n\n\n\n\n\n\nDepressãoQ\n\n\n\n\n\n\n&lt;0,001\n0,092\n\n\n    Não\n619 (34%)\n201 (11%)\n986 (55%)\n\n\n\n\n\n\n    Sim\n155 (44%)\n47 (13%)\n147 (42%)\n\n\n\n\n\n\nInsôniaQ\n\n\n\n\n\n\n&lt;0,001\n0,085\n\n\n    Não\n653 (35%)\n201 (11%)\n1.009 (54%)\n\n\n\n\n\n\n    Sim\n121 (41%)\n47 (16%)\n124 (42%)\n\n\n\n\n\n\nEnxaquecaQ\n\n\n\n\n\n\n0,195\n0,039\n\n\n    Não\n654 (36%)\n205 (11%)\n981 (53%)\n\n\n\n\n\n\n    Sim\n120 (38%)\n43 (14%)\n152 (48%)"
+  },
+  {
+    "objectID": "Projeto 1.html#resultado-variáveis-quantitativas-contínuas",
+    "href": "Projeto 1.html#resultado-variáveis-quantitativas-contínuas",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Resultado Variáveis Quantitativas Contínuas",
+    "text": "Resultado Variáveis Quantitativas Contínuas\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVariáveis\n\nConsumo de Batata, Macarrão e Arroz\n\nValor-p\nComparações Múltiplas\n\n\nAumentou774\nDiminuiu248\nNão alterou1133\n\n\n\n\nIdadeW\n33 (11)\n40 (14)\n35 (13)\n&lt;0,001\nAumentou = aDiminuiu = bNão alterou = c\n\n\nPesoA\n71 (16)\n72 (17)\n69 (16)\n0,002\nAumentou = aDiminuiu = aNão alterou = b\n\n\nAlturaA\n1,66 (0,09)\n1,65 (0,09)\n1,66 (0,08)\n0,165\nAumentou = aDiminuiu = aNão alterou = a\n\n\nIMCA\n25,9 (5,2)\n26,6 (5,4)\n25,1 (4,9)\n&lt;0,001\nAumentou = aDiminuiu = aNão alterou = b"
+  },
+  {
+    "objectID": "Projeto 1.html#conclusões---idade",
+    "href": "Projeto 1.html#conclusões---idade",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Conclusões - Idade",
+    "text": "Conclusões - Idade\nTodas as médias do grupo diferem entre si. Podemos também notar uma média de idade mais alta onde o consumo diminuiu. Mesmo os gráficos aparentaando serem similares, o grande tamanho amostral nos permite reconhecer diferenças bem mais precisas no teste de Games-Howell."
+  },
+  {
+    "objectID": "Projeto 1.html#conclusões---peso",
+    "href": "Projeto 1.html#conclusões---peso",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Conclusões - Peso",
+    "text": "Conclusões - Peso\nAs comparações só diferem quando são realizadas com o grupo “Não Alterou” e podemos também notar uma mediana mais baixa. Ademais, a variável peso aparenta uma assimetria à direita."
+  },
+  {
+    "objectID": "Projeto 1.html#conclusões---imc",
+    "href": "Projeto 1.html#conclusões---imc",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Conclusões - IMC",
+    "text": "Conclusões - IMC"
+  },
+  {
+    "objectID": "Projeto 1.html#conclusão",
+    "href": "Projeto 1.html#conclusão",
+    "title": "PRÁTICA ESTATÍSTICA II",
+    "section": "Conclusão",
+    "text": "Conclusão\n\n\n“Há evidências de algum teor socio-econômico ou psicológico que justifique o resultado apresentado?”\n\n\n\n\n“Há evidências de algum teor etário ou físico que se relacione no resultado ado?”"
+  }
+]
